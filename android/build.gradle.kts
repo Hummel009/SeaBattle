@@ -2,6 +2,10 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+plugins {
+	id("com.android.application")
+}
+
 android {
 	namespace = "com.github.hummel.sb"
 	compileSdk = 34
@@ -9,6 +13,12 @@ android {
 	packaging {
 		resources {
 			excludes.add("META-INF/*")
+		}
+	}
+
+	sourceSets {
+		named("main") {
+			jniLibs.srcDirs("libs")
 		}
 	}
 
@@ -20,12 +30,24 @@ android {
 	}
 }
 
+val natives: Configuration by configurations.creating
+
 dependencies {
+	implementation(project(":core"))
+
 	api("com.badlogicgames.gdx:gdx-freetype:1.12.1")
+	api("com.badlogicgames.gdx:gdx-backend-android:1.12.1")
+
 	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-armeabi-v7a")
 	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-arm64-v8a")
 	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-x86")
 	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-x86_64")
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(8)
+	}
 }
 
 tasks.named("preBuild").configure {
@@ -39,7 +61,7 @@ tasks.register("copyAndroidNatives") {
 		file("libs/x86_64/").mkdirs()
 		file("libs/x86/").mkdirs()
 
-		project.configurations["natives"].files.forEach { jar ->
+		natives.files.forEach { jar ->
 			var outputDir: File? = null
 			if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
 			if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
