@@ -1,6 +1,5 @@
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 plugins {
 	id("com.android.application")
@@ -50,48 +49,22 @@ java {
 	}
 }
 
-tasks.named("preBuild").configure {
-	dependsOn("copyAndroidNatives")
+tasks.whenTaskAdded {
+	if ("package" in name) {
+		dependsOn("copyAndroidNatives")
+	}
 }
 
 tasks.register("copyAndroidNatives") {
 	doFirst {
-		file("libs/armeabi-v7a/").mkdirs()
-		file("libs/arm64-v8a/").mkdirs()
-		file("libs/x86_64/").mkdirs()
-		file("libs/x86/").mkdirs()
-
 		natives.files.forEach { jar ->
-			var outputDir: File? = null
-			if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
-			if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
-			if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
-			if (jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
-			if (outputDir != null) {
-				copy {
-					from(zipTree(jar))
-					into(outputDir)
-					include("*.so")
-				}
+			val outputDir = file("libs/" + jar.nameWithoutExtension.substringAfterLast("natives-"))
+			outputDir.mkdirs()
+			copy {
+				from(zipTree(jar))
+				into(outputDir)
+				include("*.so")
 			}
 		}
 	}
-}
-
-tasks.register<Exec>("run") {
-	description = "Runs the application with ADB"
-	group = "install"
-
-	val localProperties = project.file("../local.properties")
-	val path = if (localProperties.exists()) {
-		val properties = Properties()
-		properties.load(localProperties.inputStream())
-		val sdkDir = properties.getProperty("sdk.dir")
-		sdkDir ?: System.getenv("ANDROID_HOME")
-	} else {
-		System.getenv("ANDROID_HOME")
-	}
-
-	val adb = "$path/platform-tools/adb"
-	commandLine(adb, "shell", "am", "start", "-n", "pl.baftek.spitfire/pl.baftek.spitfire.AndroidLauncher")
 }
