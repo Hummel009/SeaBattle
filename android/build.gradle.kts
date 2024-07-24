@@ -34,13 +34,13 @@ val natives: Configuration by configurations.creating
 dependencies {
 	implementation(project(":core"))
 
-	api("com.badlogicgames.gdx:gdx-freetype:1.12.1")
-	api("com.badlogicgames.gdx:gdx-backend-android:1.12.1")
+	api("com.badlogicgames.gdx:gdx-freetype:latest.release")
+	api("com.badlogicgames.gdx:gdx-backend-android:latest.release")
 
-	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-armeabi-v7a")
-	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-arm64-v8a")
-	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-x86")
-	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-x86_64")
+	natives("com.badlogicgames.gdx:gdx-freetype-platform:latest.release:natives-armeabi-v7a")
+	natives("com.badlogicgames.gdx:gdx-freetype-platform:latest.release:natives-arm64-v8a")
+	natives("com.badlogicgames.gdx:gdx-freetype-platform:latest.release:natives-x86")
+	natives("com.badlogicgames.gdx:gdx-freetype-platform:latest.release:natives-x86_64")
 }
 
 java {

@@ -23,5 +23,9 @@ dependencyResolutionManagement {
 	}
 }
 
+plugins {
+	id("org.gradle.toolchains.foojay-resolver-convention") version "latest.release"
+}
+
 include("android")
 include("core")
