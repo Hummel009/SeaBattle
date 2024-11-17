@@ -9,6 +9,13 @@ android {
 	namespace = "com.github.hummel.sb"
 	compileSdk = 34
 
+	defaultConfig {
+		applicationId = "com.github.hummel.sb"
+		minSdk = 34
+		targetSdk = 34
+		versionName = LocalDate.now().format(DateTimeFormatter.ofPattern("yy.MM.dd"))
+	}
+
 	packaging {
 		resources {
 			excludes.add("META-INF/*")
@@ -20,13 +27,6 @@ android {
 			jniLibs.srcDirs("libs")
 		}
 	}
-
-	defaultConfig {
-		applicationId = "com.github.hummel.sb"
-		minSdk = 34
-		targetSdk = 34
-		versionName = LocalDate.now().format(DateTimeFormatter.ofPattern("yy.MM.dd"))
-	}
 }
 
 val natives: Configuration by configurations.creating
@@ -36,15 +36,15 @@ dependencies {
 
 	api("com.badlogicgames.gdx:gdx-backend-android:latest.release")
 
-	natives("com.badlogicgames.gdx:gdx-platform:1.12.1:natives-armeabi-v7a")
-	natives("com.badlogicgames.gdx:gdx-platform:1.12.1:natives-arm64-v8a")
-	natives("com.badlogicgames.gdx:gdx-platform:1.12.1:natives-x86")
-	natives("com.badlogicgames.gdx:gdx-platform:1.12.1:natives-x86_64")
+	natives("com.badlogicgames.gdx:gdx-platform:1.13.0:natives-armeabi-v7a")
+	natives("com.badlogicgames.gdx:gdx-platform:1.13.0:natives-arm64-v8a")
+	natives("com.badlogicgames.gdx:gdx-platform:1.13.0:natives-x86")
+	natives("com.badlogicgames.gdx:gdx-platform:1.13.0:natives-x86_64")
 
-	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-armeabi-v7a")
-	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-arm64-v8a")
-	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-x86")
-	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-x86_64")
+	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.13.0:natives-armeabi-v7a")
+	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.13.0:natives-arm64-v8a")
+	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.13.0:natives-x86")
+	natives("com.badlogicgames.gdx:gdx-freetype-platform:1.13.0:natives-x86_64")
 }
 
 java {
